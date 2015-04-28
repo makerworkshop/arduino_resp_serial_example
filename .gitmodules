@@ -1,0 +1,6 @@
+[submodule "lib/bee"]
+	path = lib/bee
+	url = https://github.com/makerworkshop/bee.git
+[submodule "lib/libresp"]
+	path = lib/libresp
+	url = https://github.com/makerworkshop/libresp.git
