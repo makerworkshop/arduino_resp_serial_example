@@ -93,7 +93,9 @@ void setup()
 {
   // Setting up communication channel over serial port.
   conn = new SerialConn();
-  conn->Open();
+  if (!conn->Open()) {
+    while(1);
+  }
 }
 
 void loop()
