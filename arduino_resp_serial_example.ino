@@ -14,10 +14,10 @@ public Bee {
   typedef Bee super;
 public:
   bool Open();
-  bool Read(char *);
+  bool Read(unsigned char *);
   bool Write(unsigned char *, int);
   bool Close();
-  // respObject *OnMessage(respObject *); // OnMessage is commented since it's
+  respObject *OnMessage(respObject *); // OnMessage is commented since it's
                                           // an optional method.
 };
 
@@ -25,11 +25,12 @@ public:
 bool SerialConn::Open()
 {
   Serial.begin(SERIAL_BAUD_RATE);
+  Serial.println("READY");
   return true;
 }
 
 // Read reads a byte from the serial port and sets the value to <*b>.
-bool SerialConn::Read(char *b)
+bool SerialConn::Read(unsigned char *b)
 {
   if (Serial.available() > 0) {
     *b = Serial.read();
@@ -51,7 +52,6 @@ bool SerialConn::Close()
   return true;
 }
 
-/*
 // OnMessage implements some demo messages that are interpreted if
 // super::OnMessage does not know how to handle them.
 respObject *SerialConn::OnMessage(respObject *in)
@@ -61,14 +61,12 @@ respObject *SerialConn::OnMessage(respObject *in)
   // Calling super::OnMessage is completely optional, you may as well ignore
   // any pre-defined message interpretation.
   out = super::OnMessage(in);
-
   if (out == NULL) {
-
     // FOO command returns a status BAR message.
     // FOO
     // +BAR
     if (RESP_TOKEN_EQUALS(in, 0, "FOO")) {
-      out = createRespString(RESP_OBJECT_STATUS, "BAR");
+      out = createRespString(RESP_OBJECT_STATUS, (unsigned char *)"BAR");
     }
 
     // SUM command sums two integers and returns the resulting number.
@@ -79,12 +77,10 @@ respObject *SerialConn::OnMessage(respObject *in)
       int b = RESP_TOKEN_TO_INT(in, 2);
       out = createRespInteger(a + b);
     }
-
   }
 
   return out;
 }
-*/
 
 // Global pointer to SerialConn instance.
 SerialConn *conn;
